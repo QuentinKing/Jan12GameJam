@@ -216,6 +216,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &333149723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 333149724}
+  m_Layer: 0
+  m_Name: Spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &333149724
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 333149723}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.64, y: 0.8, z: 6.59}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &392548302
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +282,7 @@ MonoBehaviour:
   enemyClass: {fileID: 2762342784206339253, guid: 11cd942a58c0e864cb7777bb25ebb4e8,
     type: 3}
   player: {fileID: 746961111}
+  spawn: {fileID: 333149723}
   numCollectables: 10
   numEnemies: 3
   minX: -8
@@ -742,27 +773,27 @@ PrefabInstance:
     - target: {fileID: 3783353355694394256, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3783353355694394256, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3783353355694394256, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3783353355694394256, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -50
       objectReference: {fileID: 0}
     - target: {fileID: 3783353355694394256, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4909869540971065586, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
@@ -804,7 +835,16 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+<<<<<<< HEAD
+    - target: {fileID: 8415130455429446946, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 87.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 8703519488167356903, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
+=======
     - target: {fileID: 3897139912056772071, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
+>>>>>>> aa749a0386151e989f061eff9236be3b6f86112f
         type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1

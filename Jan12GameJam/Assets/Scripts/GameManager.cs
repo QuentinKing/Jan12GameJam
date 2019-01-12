@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private float totalTime = 120f; // 2 min
     public Player player;
     private float score;
+    public GameObject spawn;
 
     public int numCollectables = 10;
     public int numEnemies = 3;
