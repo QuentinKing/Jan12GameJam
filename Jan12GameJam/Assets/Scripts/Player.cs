@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float thrust = 20.0f;
     public float friction = 0.9f;
     public Vector3 carryDisplacement = new Vector3(0.0f, 3.0f, 0.0f);
+    public Vector3 noCarryDisplacement = new Vector3(0.0f, 1.0f, 0.0f);
 
     public int maxLives = 5;
     private int lives;
@@ -24,11 +25,11 @@ public class Player : MonoBehaviour
 
     public bool isBlocking = false;
 
-    public Rigidbody carryingObject = null;
-    private bool carryingObjectIsKinematic = false;
-    private bool carryingObjectUseGravity = false;
+    public GameObject carryingObject = null;
 
-    public Rigidbody GetCarryingObject() {
+    private GameObject collidingCollectable = null;
+
+    public GameObject GetCarryingObject() {
         return carryingObject;
     }
     
@@ -96,10 +97,40 @@ public class Player : MonoBehaviour
         isBlocking = true;
     }
 
-    public void PerformStun() {
+    public void PerformStun(EnemyMovement em) {
         throw new NotImplementedException();
         ReduceStamina(1);
         StopBlock();
+    }
+
+    protected void OnTriggerEnter(Collision collision) {
+        GameObject go = collision.gameObject;
+        EnemyMovement em = go.GetComponent<EnemyMovement>();
+        if (em) {
+            if (isBlocking) {
+                PerformStun(em);
+            }
+            else {
+                TakeDamage();
+            }
+            return;
+        }
+
+        Collectable collectable = go.GetComponent<Collectable>();
+        if (collectable) {
+            // TODO this is a hack
+            collidingCollectable = go;
+            return;
+        }
+    }
+
+    protected void OnTriggerExit(Collision collision) {
+        GameObject go = collision.gameObject;
+        Collectable collectable = go.GetComponent<Collectable>();
+        if (collectable) {
+            // TODO this is a hack
+            collidingCollectable = null;
+        }
     }
 
     public void StopBlock() {
@@ -115,8 +146,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        carryingObject.isKinematic = false;
-        carryingObject.position = rb.position + carryDisplacement;
+        carryingObject.transform.position = rb.position + carryDisplacement;
     }
 
     private void Actions() {
@@ -125,6 +155,17 @@ public class Player : MonoBehaviour
         }
         if (Input.GetKeyUp(KeyCode.Z)) {
             StopBlock();
+        }
+        
+        if (Input.GetKeyDown(KeyCode.X)) {
+            if (carryingObject != null) {
+                DropCarryingObject();
+            }
+            else {
+                if (collidingCollectable != null) {
+                    StartCarry(collidingCollectable);
+                }
+            }
         }
     }
 
@@ -143,18 +184,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void StartCarry(Rigidbody obj) {
+    public void StartCarry(GameObject obj) {
         carryingObject = obj;
-        carryingObjectIsKinematic = obj.isKinematic;
-        carryingObjectUseGravity = obj.useGravity;
-        obj.isKinematic = false;
-        obj.useGravity = false;
     }
 
-    public void Drop() {
+    public void DropCarryingObject() {
         if (carryingObject != null) {
-            carryingObject.isKinematic = carryingObjectIsKinematic;
-            carryingObject.useGravity = carryingObjectUseGravity;
+            carryingObject.transform.position = rb.position + noCarryDisplacement;
             carryingObject = null;
         }
     }
@@ -174,10 +210,10 @@ public class Player : MonoBehaviour
     }
 
     public void TakeDamage() {
-        Drop();
+        DropCarryingObject();
         lives--;
         if (lives == 0) {
-            
+            Die();
         }
         else {
             TeleportToBase();
