@@ -13,11 +13,13 @@ public class Player : MonoBehaviour
     public float friction = 0.9f;
     public Vector3 carryDisplacement = new Vector3(0.0f, 3.0f, 0.0f);
 
-    public int initialLives = 5;
+    public int maxLives = 5;
     private int lives;
 
     public int maxStamina = 5;
     private int stamina;
+
+    private bool isBlocking = false;
 
     public Rigidbody carryingObject = null;
     private bool carryingObjectIsKinematic = false;
@@ -32,7 +34,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         
-        lives = initialLives;
+        lives = maxLives;
         stamina = maxStamina;
     }
 
@@ -48,6 +50,34 @@ public class Player : MonoBehaviour
 
     public int GetMaxStamina() {
         return maxStamina;
+    }
+
+    public int GetLives() {
+        return lives;
+    }
+
+    public int GetMaxLives() {
+        return maxLives;
+    }
+
+    public bool IsBlocking() {
+        return isBlocking;
+    }
+
+    public void StartBlock() {
+        if (isBlocking) {
+            return;
+        }
+
+        isBlocking = true;
+    }
+
+    public void StopBlock() {
+        if (!isBlocking) {
+            return;
+        }
+        
+        isBlocking = false;
     }
 
     private void UpdateCarryingObject() {

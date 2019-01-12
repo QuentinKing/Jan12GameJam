@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     protected static GameManager current;
     private float totalTime = 120f; // 2 min
-    public GameObject player;
+    public Player player;
     private float score;
 
     void Awake()
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public static GameManager getCurrent()
+    public static GameManager GetCurrent()
     {
         return GameManager.current;
     }
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         totalTime -= Time.deltaTime;
-        if (totalTime < 0 && player.health < 0)
+        if (totalTime < 0 && player.GetLives() < 0)
         {
             // UI game over message
         }
