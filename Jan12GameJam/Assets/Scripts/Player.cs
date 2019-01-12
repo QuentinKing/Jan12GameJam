@@ -51,7 +51,7 @@ public class Player : MonoBehaviour
     }
 
     private void UpdateStamina() {
-        if (stamina >= maxStamina) {
+        if (stamina >= maxStamina || carryingObject != null) {
             return;
         }
         
@@ -169,17 +169,27 @@ public class Player : MonoBehaviour
     }
 
     private void Movement() {
+        bool moving = false;
         if (Input.GetKey(KeyCode.UpArrow)) {
             rb.AddForce(up * thrust);
+            moving = true;
         }
         if (Input.GetKey(KeyCode.DownArrow)) {
             rb.AddForce(-up * thrust);
+            moving = true;
         }
         if (Input.GetKey(KeyCode.LeftArrow)) {
             rb.AddForce(-right * thrust);
+            moving = true;
         }
         if (Input.GetKey(KeyCode.RightArrow)) {
             rb.AddForce(right * thrust);
+            moving = true;
+        }
+
+        if (moving) {
+            Quaternion targetRotation = Quaternion.LookRotation(rb.velocity);
+            transform.rotation = targetRotation;
         }
     }
 
