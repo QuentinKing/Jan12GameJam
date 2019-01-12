@@ -97,6 +97,7 @@ public class Player : MonoBehaviour
     }
 
     public void PerformStun(EnemyMovement em) {
+        em.stun();
         throw new NotImplementedException();
         ReduceStamina(1);
         StopBlock();

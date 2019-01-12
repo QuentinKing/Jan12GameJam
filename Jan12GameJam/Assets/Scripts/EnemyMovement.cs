@@ -54,10 +54,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    public void stun(Vector3 push)
+    public void stun()
     {
         stunRemaining = stunDuration;
-        rb.AddForce(push);
+        // Vector3 push = player.position - transform.position;
+        // rb.AddForce(push);
     }
 
     private Vector3 RandomNavmeshLocation(float radius)
