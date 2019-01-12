@@ -4,29 +4,29 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     public Camera camera;
-
     protected static GameManager current;
+    private float totalTime = 120f; // 2 min
+    public GameObject player;
+    private float score;
 
-    void Awake() {
+    void Awake()
+    {
         GameManager.current = this;
         DontDestroyOnLoad(this);
     }
 
-    public static GameManager getCurrent() {
+    public static GameManager getCurrent()
+    {
         return GameManager.current;
     }
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        totalTime -= Time.deltaTime;
+        if (totalTime < 0 && player.health < 0)
+        {
+            // UI game over message
+        }
     }
 }
