@@ -213,11 +213,11 @@ public class Player : MonoBehaviour
     }
 
     public void Die() {
-        throw new NotImplementedException();
+        Debug.Log("Player Died.");
     }
 
     public void TeleportToBase() {
-        throw new NotImplementedException();
+        rb.position = GameManager.GetCurrent().spawn.transform.position;
     }
 
     public void TakeDamage() {
