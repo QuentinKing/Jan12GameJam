@@ -249,8 +249,10 @@ MonoBehaviour:
   uiManager: {fileID: 1001765684}
   collectableClass: {fileID: 4102469180374672237, guid: 912f7bfdba099314385311d8c46763f4,
     type: 3}
+  enemyClass: {fileID: 0}
   player: {fileID: 746961111}
   numCollectables: 10
+  numEnemies: 3
   minX: -8
   maxX: 8
   minZ: -8
@@ -374,7 +376,7 @@ MonoBehaviour:
   right: {x: 1, y: 0, z: -1}
   thrust: 20
   friction: 0.9
-  carryDisplacement: {x: 0, y: 3, z: 0}
+  carryDisplacement: {x: 0, y: 1.5, z: 0}
   maxLives: 5
   staminaRechargeTime: 2
   maxStamina: 5

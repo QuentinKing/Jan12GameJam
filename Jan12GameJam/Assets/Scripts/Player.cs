@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     public Vector3 right = new Vector3(1.0f, 0.0f, -1.0f);
     public float thrust = 20.0f;
     public float friction = 0.9f;
-    public Vector3 carryDisplacement = new Vector3(0.0f, 3.0f, 0.0f);
+    public Vector3 carryDisplacement = new Vector3(0.0f, 1.0f, 0.0f);
 
     public int maxLives = 5;
     private int lives;

@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5beb07c53ca7d014a9a4bcf31de7b25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManager: {fileID: 0}
-  player: {fileID: 0}
+  gameManager: {fileID: 0}
+  player: {fileID: 6008044384048359138, guid: 6e4c384c2db6340a799bab7a1ef7b3a5, type: 3}
   rb: {fileID: 0}
   speed: 3
   vision: 7
