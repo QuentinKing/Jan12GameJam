@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
     private bool carryingObjectIsKinematic = false;
     private bool carryingObjectUseGravity = false;
 
+    private Rigidbody collidingCollectable = null;
+
     public Rigidbody GetCarryingObject() {
         return carryingObject;
     }
@@ -96,10 +98,40 @@ public class Player : MonoBehaviour
         isBlocking = true;
     }
 
-    public void PerformStun() {
+    public void PerformStun(EnemyMovement em) {
         throw new NotImplementedException();
         ReduceStamina(1);
         StopBlock();
+    }
+
+    protected void OnCollisionEnter(Collision collision) {
+        GameObject go = collision.gameObject;
+        EnemyMovement em = go.GetComponent<EnemyMovement>();
+        if (em) {
+            if (isBlocking) {
+                PerformStun(em);
+            }
+            else {
+                TakeDamage();
+            }
+            return;
+        }
+
+        Collectable collectable = go.GetComponent<Collectable>();
+        if (collectable) {
+            // TODO this is a hack
+            collidingCollectable = go.GetComponent<Rigidbody>();
+            return;
+        }
+    }
+
+    protected void OnCollisionExit(Collision collision) {
+        GameObject go = collision.gameObject;
+        Collectable collectable = go.GetComponent<Collectable>();
+        if (collectable) {
+            // TODO this is a hack
+            collidingCollectable = null;
+        }
     }
 
     public void StopBlock() {
@@ -126,6 +158,17 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Z)) {
             StopBlock();
         }
+        
+        if (Input.GetKeyDown(KeyCode.X)) {
+            if (carryingObject != null) {
+                DropCarryingObject();
+            }
+            else {
+                if (collidingCollectable != null) {
+                    StartCarry(collidingCollectable);
+                }
+            }
+        }
     }
 
     private void Movement() {
@@ -151,7 +194,7 @@ public class Player : MonoBehaviour
         obj.useGravity = false;
     }
 
-    public void Drop() {
+    public void DropCarryingObject() {
         if (carryingObject != null) {
             carryingObject.isKinematic = carryingObjectIsKinematic;
             carryingObject.useGravity = carryingObjectUseGravity;
@@ -174,7 +217,7 @@ public class Player : MonoBehaviour
     }
 
     public void TakeDamage() {
-        Drop();
+        DropCarryingObject();
         lives--;
         if (lives == 0) {
             
