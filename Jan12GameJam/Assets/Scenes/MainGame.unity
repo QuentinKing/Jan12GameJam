@@ -835,16 +835,12 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-<<<<<<< HEAD
     - target: {fileID: 8415130455429446946, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
         type: 3}
       propertyPath: m_SizeDelta.x
       value: 87.71
       objectReference: {fileID: 0}
     - target: {fileID: 8703519488167356903, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
-=======
-    - target: {fileID: 3897139912056772071, guid: 72722ebecc0fa0a47aaa3031d83d1b71,
->>>>>>> aa749a0386151e989f061eff9236be3b6f86112f
         type: 3}
       propertyPath: m_havePropertiesChanged
       value: 1
