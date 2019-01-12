@@ -22,7 +22,7 @@ public class UI_Manager : MonoBehaviour
 
     public void UpdateText(int lives, int points, float stamina, float time)
     {
-        SetLives(lives);
+        //SetLives(lives); // This is an image
         SetPoints(points);
         SetStaminaBar(stamina);
         SetTime(time);
