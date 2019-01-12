@@ -20,13 +20,12 @@ public class UI_Manager : MonoBehaviour
         OnGameStart();
     }
 
-    private void Update()
+    public void UpdateText(int lives, int points, float stamina, float time)
     {
-        // TODO, hook these up
-        SetLives(3);
-        SetPoints(100);
-        SetStaminaBar(0.7f);
-        SetTime(142.0f);
+        SetLives(lives);
+        SetPoints(points);
+        SetStaminaBar(stamina);
+        SetTime(time);
     }
 
     public void SetLives(int livesTotal)
@@ -55,9 +54,10 @@ public class UI_Manager : MonoBehaviour
         timerValue.text = string.Format("{0}:{1}", minutes, seconds);
     }
 
-    public void OnGameOver()
+    public void OnGameOver(bool win)
     {
-        youLoseText.gameObject.SetActive(true);
+        youLoseText.gameObject.SetActive(!win);
+        youWinText.gameObject.SetActive(win);
     }
 
     public void OnGameStart()
