@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
     private float totalTime = 120f; // 2 min
     public Player player;
     private float score;
-    private GameObject[] collectables = GameObject.FindObjectsOfType<Collectable>();
 
     public int numCollectables = 10;
     public float minX = -8.0f;
@@ -40,7 +39,7 @@ public class GameManager : MonoBehaviour
         totalTime -= Time.deltaTime;
         if (totalTime < 0)
         {
-            if (collectables.Length > 0 || player.GetLives() < 0)
+            if (numCollectables > 0 || player.GetLives() < 0)
             {
                 // UI game over message
                 uiManager.OnGameOver(false);
@@ -48,7 +47,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (collectables.Length <= 0)
+            if (numCollectables <= 0)
             {
                 // UI win message
                 uiManager.OnGameOver(true);

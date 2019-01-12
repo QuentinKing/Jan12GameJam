@@ -163,7 +163,10 @@ MonoBehaviour:
   player: {fileID: 0}
   rb: {fileID: 0}
   speed: 3
-  vision: 10
+  vision: 7
   stunRemaining: 0
   stunDuration: 5
-  wanderRadius: 20
+  wanderRadius: 10
+  wanderRemaining: 0
+  wanderDuration: 5
+  randomDestination: {x: 0, y: 0, z: 0}
