@@ -10,11 +10,13 @@ public class EnemyMovement : MonoBehaviour
     public Transform player;
     public Rigidbody rb;
     public float speed = 3f;
-    public float vision = 10f;
+    public float vision = 7f;
     public float stunRemaining = 0f;
     public float stunDuration = 5f;
-    public float wanderRadius = 20f;
-    private Vector3 randomDestination;
+    public float wanderRadius = 10f;
+    public float wanderRemaining = 0f;
+    public float wanderDuration = 5f;
+    public Vector3 randomDestination = Vector3.zero;
     private UnityEngine.AI.NavMeshAgent nav;
 
     // Start is called before the first frame update
@@ -32,16 +34,23 @@ public class EnemyMovement : MonoBehaviour
         if (stunRemaining > 0)
         {
             stunRemaining = System.Math.Max(stunRemaining - Time.deltaTime, 0);
-            nav.enabled = false;
+            nav.enabled = stunRemaining == 0;
         } // Move towards player if within radius
         else if (Vector3.Distance(this.transform.position, player.position) < vision)
         {
             nav.SetDestination(player.position);
         } // Player isn't within range, generate random position and move towards it
-        else if (randomDestination == null || Vector3.Distance(this.transform.position, randomDestination) < 1f)
+        else// if (randomDestination == Vector3.zero || Vector3.Distance(this.transform.position, randomDestination) < 2)
         {
-            randomDestination = RandomNavmeshLocation(wanderRadius);
-            nav.SetDestination(randomDestination);
+            if (wanderRemaining == 0)
+            {
+                wanderRemaining = wanderDuration;
+                randomDestination = RandomNavmeshLocation(wanderRadius);
+                nav.SetDestination(randomDestination);
+            } else 
+            {
+                wanderRemaining = System.Math.Max(wanderRemaining - Time.deltaTime, 0);
+            }
         }
     }
 
@@ -53,7 +62,7 @@ public class EnemyMovement : MonoBehaviour
 
     private Vector3 RandomNavmeshLocation(float radius)
     {
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * radius + transform.position;
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * radius;// + transform.position;
         UnityEngine.AI.NavMeshHit hit;
         Vector3 finalPosition = Vector3.zero;
         if (UnityEngine.AI.NavMesh.SamplePosition(randomDirection, out hit, radius, 1))
