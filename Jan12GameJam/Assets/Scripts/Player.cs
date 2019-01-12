@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public float thrust = 20.0f;
     public float friction = 0.9f;
     public Vector3 carryDisplacement = new Vector3(0.0f, 3.0f, 0.0f);
+    public Vector3 noCarryDisplacement = new Vector3(0.0f, 1.0f, 0.0f);
 
     public int maxLives = 5;
     private int lives;
@@ -24,13 +25,11 @@ public class Player : MonoBehaviour
 
     public bool isBlocking = false;
 
-    public Rigidbody carryingObject = null;
-    private bool carryingObjectIsKinematic = false;
-    private bool carryingObjectUseGravity = false;
+    public GameObject carryingObject = null;
 
-    private Rigidbody collidingCollectable = null;
+    private GameObject collidingCollectable = null;
 
-    public Rigidbody GetCarryingObject() {
+    public GameObject GetCarryingObject() {
         return carryingObject;
     }
     
@@ -104,7 +103,7 @@ public class Player : MonoBehaviour
         StopBlock();
     }
 
-    protected void OnCollisionEnter(Collision collision) {
+    protected void OnTriggerEnter(Collision collision) {
         GameObject go = collision.gameObject;
         EnemyMovement em = go.GetComponent<EnemyMovement>();
         if (em) {
@@ -120,12 +119,12 @@ public class Player : MonoBehaviour
         Collectable collectable = go.GetComponent<Collectable>();
         if (collectable) {
             // TODO this is a hack
-            collidingCollectable = go.GetComponent<Rigidbody>();
+            collidingCollectable = go;
             return;
         }
     }
 
-    protected void OnCollisionExit(Collision collision) {
+    protected void OnTriggerExit(Collision collision) {
         GameObject go = collision.gameObject;
         Collectable collectable = go.GetComponent<Collectable>();
         if (collectable) {
@@ -147,8 +146,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        carryingObject.isKinematic = false;
-        carryingObject.position = rb.position + carryDisplacement;
+        carryingObject.transform.position = rb.position + carryDisplacement;
     }
 
     private void Actions() {
@@ -186,18 +184,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void StartCarry(Rigidbody obj) {
+    public void StartCarry(GameObject obj) {
         carryingObject = obj;
-        carryingObjectIsKinematic = obj.isKinematic;
-        carryingObjectUseGravity = obj.useGravity;
-        obj.isKinematic = false;
-        obj.useGravity = false;
     }
 
     public void DropCarryingObject() {
         if (carryingObject != null) {
-            carryingObject.isKinematic = carryingObjectIsKinematic;
-            carryingObject.useGravity = carryingObjectUseGravity;
+            carryingObject.transform.position = rb.position + noCarryDisplacement;
             carryingObject = null;
         }
     }

@@ -7,15 +7,27 @@ public class GameManager : MonoBehaviour
     public Camera camera;
     public UI_Manager uiManager;
     protected static GameManager current;
+    public Collectable collectableClass;
     private float totalTime = 120f; // 2 min
     public Player player;
     private float score;
     private GameObject[] collectables = GameObject.FindObjectsOfType<Collectable>();
 
-    void Awake()
+    public int numCollectables = 10;
+    public float minX = -8.0f;
+    public float maxX = 8.0f;
+    public float minZ = -8.0f;
+    public float maxZ = 8.0f;
+    public float collectableY = 1.0f;
+
+    protected void Awake()
     {
         GameManager.current = this;
         DontDestroyOnLoad(this);
+    }
+
+    protected void Start() {
+        GenerateCollectables();
     }
 
     public static GameManager GetCurrent()
@@ -23,7 +35,7 @@ public class GameManager : MonoBehaviour
         return GameManager.current;
     }
 
-    void Update()
+    protected void Update()
     {
         totalTime -= Time.deltaTime;
         if (totalTime < 0)
@@ -43,5 +55,19 @@ public class GameManager : MonoBehaviour
             }
         }
         uiManager.UpdateText(player.GetLives(), (int)score, player.GetStamina() / player.GetMaxStamina(), totalTime);
+    }
+
+    public float randRange(float a, float b) {
+        return a + (b - a) * Random.value;
+    }
+
+    public void GenerateCollectables() {
+        for (int i = 0; i < numCollectables; i++) {
+            Instantiate(
+                collectableClass,
+                new Vector3(randRange(minX, maxX), collectableY, randRange(minZ, maxZ)),
+                Quaternion.identity
+            );
+        }
     }
 }
