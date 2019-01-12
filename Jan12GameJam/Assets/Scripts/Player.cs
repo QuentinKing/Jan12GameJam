@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     public float thrust = 20.0f;
     public float friction = 0.9f;
     public Vector3 carryDisplacement = new Vector3(0.0f, 3.0f, 0.0f);
-    public Vector3 noCarryDisplacement = new Vector3(0.0f, 1.0f, 0.0f);
 
     public int maxLives = 5;
     private int lives;
@@ -103,8 +102,8 @@ public class Player : MonoBehaviour
         StopBlock();
     }
 
-    protected void OnTriggerEnter(Collision collision) {
-        GameObject go = collision.gameObject;
+    protected void OnTriggerEnter(Collider collider) {
+        GameObject go = collider.gameObject;
         EnemyMovement em = go.GetComponent<EnemyMovement>();
         if (em) {
             if (isBlocking) {
@@ -124,8 +123,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    protected void OnTriggerExit(Collision collision) {
-        GameObject go = collision.gameObject;
+    protected void OnTriggerExit(Collider collider) {
+        GameObject go = collider.gameObject;
         Collectable collectable = go.GetComponent<Collectable>();
         if (collectable) {
             // TODO this is a hack
@@ -190,7 +189,9 @@ public class Player : MonoBehaviour
 
     public void DropCarryingObject() {
         if (carryingObject != null) {
-            carryingObject.transform.position = rb.position + noCarryDisplacement;
+            Vector3 pos = rb.position;
+            pos.y = GameManager.GetCurrent().collectableY;
+            carryingObject.transform.position = pos;
             carryingObject = null;
         }
     }
