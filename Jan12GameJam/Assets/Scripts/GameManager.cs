@@ -5,10 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public Camera camera;
+    public UI_Manager uiManager;
     protected static GameManager current;
     private float totalTime = 120f; // 2 min
-    public GameObject player;
+    public Player player;
     private float score;
+    private GameObject[] collectables = GameObject.FindObjectsOfType<Collectable>();
 
     void Awake()
     {
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public static GameManager getCurrent()
+    public static GameManager GetCurrent()
     {
         return GameManager.current;
     }
@@ -24,9 +26,22 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         totalTime -= Time.deltaTime;
-        if (totalTime < 0 && player.health < 0)
+        if (totalTime < 0)
         {
-            // UI game over message
+            if (collectables.Length > 0 || player.GetLives() < 0)
+            {
+                // UI game over message
+                uiManager.OnGameOver(false);
+            }
         }
+        else
+        {
+            if (collectables.Length <= 0)
+            {
+                // UI win message
+                uiManager.OnGameOver(true);
+            }
+        }
+        uiManager.UpdateText(player.GetLives(), (int)score, player.GetStamina() / player.GetMaxStamina(), totalTime);
     }
 }
