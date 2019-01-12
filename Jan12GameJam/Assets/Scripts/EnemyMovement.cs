@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
 
-    public GameObject GameManager;
+    public GameObject gameManager;
     public Transform player;
     public Rigidbody rb;
     public float speed = 3f;
@@ -42,7 +42,7 @@ public class EnemyMovement : MonoBehaviour
         } // Player isn't within range, generate random position and move towards it
         else// if (randomDestination == Vector3.zero || Vector3.Distance(this.transform.position, randomDestination) < 2)
         {
-            if (wanderRemaining == 0)
+            if (wanderRemaining == 0 || Vector3.Distance(this.transform.position, randomDestination) < 2)
             {
                 wanderRemaining = wanderDuration;
                 randomDestination = RandomNavmeshLocation(wanderRadius);

@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
     public UI_Manager uiManager;
     protected static GameManager current;
     public Collectable collectableClass;
+    public EnemyMovement enemyClass;
     private float totalTime = 120f; // 2 min
     public Player player;
     private float score;
 
     public int numCollectables = 10;
+    public int numEnemies = 3;
     public float minX = -8.0f;
     public float maxX = 8.0f;
     public float minZ = -8.0f;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     protected void Start() {
         GenerateCollectables();
+        GenerateEnemies();
     }
 
     public static GameManager GetCurrent()
@@ -67,6 +70,17 @@ public class GameManager : MonoBehaviour
                 new Vector3(randRange(minX, maxX), collectableY, randRange(minZ, maxZ)),
                 Quaternion.identity
             );
+        }
+    }
+
+    public void GenerateEnemies() {
+        for (int i = 0; i < numEnemies; i++) {
+            var enemy = Instantiate(
+                enemyClass,
+                new Vector3(randRange(minX, maxX), collectableY, randRange(minZ, maxZ)),
+                Quaternion.identity
+            );
+            enemy.player = player.transform;
         }
     }
 }
