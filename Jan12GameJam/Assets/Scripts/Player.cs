@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
     public Vector3 carryDisplacement = new Vector3(0.0f, 1.0f, 0.0f);
 
     public int maxLives = 5;
+    public float pushForce = 2f;
     private int lives;
 
     public float staminaRechargeTime = 2.0f;
@@ -97,8 +98,7 @@ public class Player : MonoBehaviour
     }
 
     public void PerformStun(EnemyMovement em) {
-        em.stun();
-        throw new NotImplementedException();
+        em.stun(pushForce);
         ReduceStamina(1);
         StopBlock();
     }
