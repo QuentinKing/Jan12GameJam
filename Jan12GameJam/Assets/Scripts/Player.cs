@@ -16,10 +16,13 @@ public class Player : MonoBehaviour
     public int maxLives = 5;
     private int lives;
 
-    public int maxStamina = 5;
+    public float staminaRechargeTime = 2.0f;
+    private float staminaRechargeTimer;
+
+    public int maxStamina = 3;
     private int stamina;
 
-    private bool isBlocking = false;
+    public bool isBlocking = false;
 
     public Rigidbody carryingObject = null;
     private bool carryingObjectIsKinematic = false;
@@ -36,12 +39,27 @@ public class Player : MonoBehaviour
         
         lives = maxLives;
         stamina = maxStamina;
+        staminaRechargeTimer = 0.0f;
+        isBlocking = false;
     }
 
     // Update is called once per frame
     protected void Update()
     {
+        Actions();
+        UpdateStamina();
+    }
+
+    private void UpdateStamina() {
+        if (stamina >= maxStamina) {
+            return;
+        }
         
+        if (staminaRechargeTimer >= staminaRechargeTime) {
+            staminaRechargeTimer = 0f;
+            stamina++;
+        }
+        staminaRechargeTimer += Time.deltaTime;
     }
 
     public int GetStamina() {
@@ -50,6 +68,12 @@ public class Player : MonoBehaviour
 
     public int GetMaxStamina() {
         return maxStamina;
+    }
+
+    public void ReduceStamina(int amount) {
+        stamina -= amount;
+        if (stamina < 0) stamina = 0;
+        staminaRechargeTimer = 0.0f;
     }
 
     public int GetLives() {
@@ -65,11 +89,17 @@ public class Player : MonoBehaviour
     }
 
     public void StartBlock() {
-        if (isBlocking) {
+        if (isBlocking || GetStamina() <= 0) {
             return;
         }
 
         isBlocking = true;
+    }
+
+    public void PerformStun() {
+        throw new NotImplementedException();
+        ReduceStamina(1);
+        StopBlock();
     }
 
     public void StopBlock() {
@@ -89,17 +119,26 @@ public class Player : MonoBehaviour
         carryingObject.position = rb.position + carryDisplacement;
     }
 
+    private void Actions() {
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            StartBlock();
+        }
+        if (Input.GetKeyUp(KeyCode.Z)) {
+            StopBlock();
+        }
+    }
+
     private void Movement() {
-        if (Input.GetKey(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.UpArrow)) {
             rb.AddForce(up * thrust);
         }
-        if (Input.GetKey(KeyCode.S)) {
+        if (Input.GetKey(KeyCode.DownArrow)) {
             rb.AddForce(-up * thrust);
         }
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.LeftArrow)) {
             rb.AddForce(-right * thrust);
         }
-        if (Input.GetKey(KeyCode.D)) {
+        if (Input.GetKey(KeyCode.RightArrow)) {
             rb.AddForce(right * thrust);
         }
     }
