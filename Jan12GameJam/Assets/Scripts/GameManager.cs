@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         totalTime -= Time.deltaTime;
-        if (totalTime < 0 && player.GetLives() < 0)
+        if (totalTime < 0 || player.GetLives() < 0)
         {
             // UI game over message
         }
