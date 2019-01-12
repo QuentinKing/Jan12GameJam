@@ -220,7 +220,7 @@ public class Player : MonoBehaviour
         DropCarryingObject();
         lives--;
         if (lives == 0) {
-            
+            Die();
         }
         else {
             TeleportToBase();
